@@ -17,5 +17,5 @@ class Sounds:
 
     @staticmethod
     def long_break():
-        pygame.mixer.music.load("sounds/long.mp3.mp3")
+        pygame.mixer.music.load("sounds/long.mp3")
         pygame.mixer.music.play(loops=0, )

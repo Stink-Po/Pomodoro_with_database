@@ -1,15 +1,3 @@
-a = range(100)
+from random import choices
 
-
-def start():
-    s = []
-    for i in range(100):
-        yield i
-        if i % 2 == 0:
-            s.append(i)
-
-    return s
-
-
-b = start()
-print(b)
+print(sorted(choices(range(10_000), k=5)))

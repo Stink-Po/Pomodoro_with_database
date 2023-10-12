@@ -1,5 +1,5 @@
 import math
-from tkinter import *
+from tkinter import Tk, Canvas, Label, PhotoImage, Button
 from sound_player import Sounds
 from constence import *
 from months_vision import MonthBoard
@@ -18,14 +18,14 @@ class MainApp:
         self.tomato_image = PhotoImage(file="images/tomato.png")
         self.timer_text = None
         self.timer = None
-        self.button = Button(text="Start", bg=YELLOW, highlightthickness=0, command=self.start_timer, )
+        self.button = Button(text="Start", bg=YELLOW, highlightthickness=0, command=self.start_it )
         self.report_button = Button(text="Report", bg=YELLOW, highlightthickness=0, command=self.show_records)
         self.stop_button = Button(text="Stop", bg=YELLOW, highlightthickness=0, command=self.reset)
         self.next_month_btn = Button(text="Next", bg=YELLOW, highlightthickness=0, command=self.next_record)
         self.previous_month_btn = Button(text="Previous", bg=YELLOW, highlightthickness=0, command=self.previous_record)
         self.date_label = Label(text="", bg=YELLOW, fg=GREEN)
         self.back_btn = Button(text="Back", bg=YELLOW, highlightthickness=0, command=self.back_btn_press)
-        self.report_label = Label(text="",bg=YELLOW, fg=GREEN)
+        self.report_label = Label(text="", bg=YELLOW, fg=GREEN)
         self.config()
         self.grid_start()
         self.window.mainloop()
@@ -47,9 +47,13 @@ class MainApp:
         self.button.grid(column=0, row=2, columnspan=3)
         self.report_button.grid(column=0, row=3, columnspan=3)
 
+    def start_it(self):
+        self.timer_calculator.timer_start()
+        self.start_timer()
+        self.grid_start_press()
+
     # after pressing start button this function will remove the start button and report button and replace with stop btn
     def grid_start_press(self):
-        self.timer_calculator.timer_start()
         self.button.grid_forget()
         self.report_button.grid_forget()
         self.stop_button.grid(column=0, row=4)
@@ -92,16 +96,19 @@ class MainApp:
         short_break_sec = SHORT_BREAK_MIN * 60
         long_break_sec = LONG_BREAK_MIN * 60
         if self.repeats % 8 == 0:
+            self.timer_calculator.update_duration()
             self.sound_player.long_break()
             self.count_down(long_break_sec)
             self.label.config(text="Long Break", fg="#81CACF")
 
         elif self.repeats % 2 == 0:
+            self.timer_calculator.update_duration()
             self.sound_player.short_break()
             self.count_down(short_break_sec)
             self.label.config(text="Short Break", fg="#5A8F7B")
 
         else:
+            self.timer_calculator.update_duration()
             self.sound_player.study()
             self.count_down(work_sec)
             self.label.config(text="Study", fg="#355764")

@@ -1,6 +1,6 @@
-from datetime import date, time, timedelta, datetime
+from datetime import date, timedelta, datetime
 from database import update_study_time
-import time
+from time import perf_counter
 
 
 # Return True if given year is leap otherwise False
@@ -64,14 +64,19 @@ class StudyTimer:
         update_study_time(current_date=self.today, study_time=self.duration)
 
     def timer_start(self):
-        self.start_time = time.time()
+        self.start_time = datetime.now()
         return self.start_time
 
     def timer_stop(self):
-        self.end_time = time.time()
-        final_duration = (self.end_time - self.start_time) // 60
+        self.end_time = datetime.now()
+        final_duration = int((self.end_time - self.start_time).seconds) // 60
         self.duration += final_duration
-        return self.duration
+        return self.duration, self.end_time
+
+    def update_duration(self):
+        result = (datetime.now() - self.start_time)
+        print(f"duration {result.seconds}")
+        print(f"start time : {self.start_time}")
 
     def get_current_date(self):
         self.year = date.today().year
